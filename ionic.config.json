@@ -1,0 +1,7 @@
+{
+  "name": "devopsizer",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
