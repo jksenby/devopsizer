@@ -1,17 +1,41 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
+    <ion-title> Ssh Tab </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
+      <ion-title size="large">Ssh Tab 1</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <ion-text>
+    <p>Status: {{ sshStatus }}</p>
+  </ion-text>
+  <form [formGroup]="form" (ngSubmit)="connectSSH(form.value)">
+    <ion-list>
+      <ion-item>
+        <ion-input
+          formControlName="fileName"
+          label="File Name"
+          labelPlacement="stacked"
+        >
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-textarea
+          label="File Content"
+          labelPlacement="stacked"
+          formControlName="fileContent"
+        ></ion-textarea>
+      </ion-item>
+    </ion-list>
+    <ion-button type="submit">Connect to SSH</ion-button>
+    <ion-button (click)="disconnectSSH()" color="dark"
+      >Disonnect from SSH</ion-button
+    >
+  </form>
 </ion-content>

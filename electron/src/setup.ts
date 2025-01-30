@@ -6,13 +6,21 @@ import {
 } from '@capacitor-community/electron';
 import chokidar from 'chokidar';
 import type { MenuItemConstructorOptions } from 'electron';
-import { app, BrowserWindow, Menu, MenuItem, nativeImage, Tray, session } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  Menu,
+  MenuItem,
+  nativeImage,
+  Tray,
+  session,
+  ipcMain,
+} from 'electron';
 import electronIsDev from 'electron-is-dev';
 import electronServe from 'electron-serve';
 import windowStateKeeper from 'electron-window-state';
 import { join } from 'path';
 import { Client } from 'ssh2';
-import * as fs from 'fs'; 
 import { readFileSync } from 'fs';
 
 // Define components for a watcher to detect when the webapp is changed so we can reload in Dev mode.
@@ -21,7 +29,9 @@ const reloadWatcher = {
   ready: false,
   watcher: null,
 };
-export function setupReloadWatcher(electronCapacitorApp: ElectronCapacitorApp): void {
+export function setupReloadWatcher(
+  electronCapacitorApp: ElectronCapacitorApp
+): void {
   reloadWatcher.watcher = chokidar
     .watch(join(app.getAppPath(), 'app'), {
       ignored: /[/\\]\./,
@@ -69,7 +79,9 @@ export class ElectronCapacitorApp {
   ) {
     this.CapacitorFileConfig = capacitorFileConfig;
 
-    this.customScheme = this.CapacitorFileConfig.electron?.customUrlScheme ?? 'capacitor-electron';
+    this.customScheme =
+      this.CapacitorFileConfig.electron?.customUrlScheme ??
+      'capacitor-electron';
 
     if (trayMenuTemplate) {
       this.TrayMenuTemplate = trayMenuTemplate;
@@ -101,25 +113,12 @@ export class ElectronCapacitorApp {
   }
 
   async init(): Promise<void> {
-    // Configure SSH
-    this.initSSHConnection();
-
-    setTimeout(async () => {
-      try {
-        const filePath = '/Users/jksenby/Documents'; // Replace with the desired remote path
-        const content = 'This is the content of the text file.';
-
-        // Create the remote text file
-        await this.createRemoteTextFile(filePath, content);
-        console.log('Remote file created successfully.');
-      } catch (err) {
-        console.error('Error creating remote file:', err);
-      } finally {
-        this.sshClient.end(); // Close the connection when done
-      }
-    }, 3000);
     const icon = nativeImage.createFromPath(
-      join(app.getAppPath(), 'assets', process.platform === 'win32' ? 'appIcon.ico' : 'appIcon.png')
+      join(
+        app.getAppPath(),
+        'assets',
+        process.platform === 'win32' ? 'appIcon.ico' : 'appIcon.png'
+      )
     );
     this.mainWindowState = windowStateKeeper({
       defaultWidth: 1000,
@@ -142,15 +141,21 @@ export class ElectronCapacitorApp {
         preload: preloadPath,
       },
     });
+    this.MainWindow.maximize();
     this.mainWindowState.manage(this.MainWindow);
 
     if (this.CapacitorFileConfig.backgroundColor) {
-      this.MainWindow.setBackgroundColor(this.CapacitorFileConfig.electron.backgroundColor);
+      this.MainWindow.setBackgroundColor(
+        this.CapacitorFileConfig.electron.backgroundColor
+      );
     }
 
     // If we close the main window with the splashscreen enabled we need to destory the ref.
     this.MainWindow.on('closed', () => {
-      if (this.SplashScreen?.getSplashWindow() && !this.SplashScreen.getSplashWindow().isDestroyed()) {
+      if (
+        this.SplashScreen?.getSplashWindow() &&
+        !this.SplashScreen.getSplashWindow().isDestroyed()
+      ) {
         this.SplashScreen.getSplashWindow().close();
       }
     });
@@ -179,11 +184,15 @@ export class ElectronCapacitorApp {
         }
       });
       this.TrayIcon.setToolTip(app.getName());
-      this.TrayIcon.setContextMenu(Menu.buildFromTemplate(this.TrayMenuTemplate));
+      this.TrayIcon.setContextMenu(
+        Menu.buildFromTemplate(this.TrayMenuTemplate)
+      );
     }
 
     // Setup the main manu bar at the top of our window.
-    Menu.setApplicationMenu(Menu.buildFromTemplate(this.AppMenuBarMenuTemplate));
+    Menu.setApplicationMenu(
+      Menu.buildFromTemplate(this.AppMenuBarMenuTemplate)
+    );
 
     // If the splashscreen is enabled, show it first while the main window loads then switch it out for the main window, or just load the main window from the start.
     if (this.CapacitorFileConfig.electron?.splashScreenEnabled) {
@@ -191,7 +200,8 @@ export class ElectronCapacitorApp {
         imageFilePath: join(
           app.getAppPath(),
           'assets',
-          this.CapacitorFileConfig.electron?.splashScreenImageName ?? 'splash.png'
+          this.CapacitorFileConfig.electron?.splashScreenImageName ??
+            'splash.png'
         ),
         windowWidth: 400,
         windowHeight: 400,
@@ -230,71 +240,81 @@ export class ElectronCapacitorApp {
         if (electronIsDev) {
           this.MainWindow.webContents.openDevTools();
         }
-        CapElectronEventEmitter.emit('CAPELECTRON_DeeplinkListenerInitialized', '');
+        CapElectronEventEmitter.emit(
+          'CAPELECTRON_DeeplinkListenerInitialized',
+          ''
+        );
       }, 400);
     });
-  }
+    // SSH Connection
+    var sshClient: Client | null = null;
 
-  private sshClient = new Client();
-  private isSSHConnected = false;
+    ipcMain.on('connect-ssh', async (event, { sshConfig, formValue }) => {
+      sshClient = new Client();
+      let isSSHConnected = false;
 
-  private sshConfig = {
-    host: '37.27.81.10',
-    port: 22,
-    username: 'root',
-    privateKey: readFileSync('/Users/jksenby/.ssh/id_ed25519'),
-    passphrase: 'jksenby'
-  }
-
-  // Initialize SSH connection
-  initSSHConnection(): void {
-    this.sshClient
-      .on('ready', () => {
+      sshClient.on('ready', () => {
         console.log('SSH connection established successfully!');
-        this.isSSHConnected = true;
-      })
-      .on('error', (err) => {
-        console.error('SSH connection error:', err);
-      })
-      .on('close', () => {
-        console.log('SSH connection closed.');
-        this.isSSHConnected = false;
-      })
-      .connect(this.sshConfig);
-  }
+        isSSHConnected = true;
 
-  // Create a `.txt` file on the server
-  createRemoteTextFile(filePath: string, content: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-      if (!this.isSSHConnected) {
-        return reject(new Error('SSH connection is not established!'));
-      }
+        const filePath = formValue.fileName + '.txt';
+        const content = formValue.fileContent;
+        const command = `echo ${content} > ${filePath}`;
 
-      // Use echo to write content into the file
-      const command = `echo "${content}" > ${filePath}`;
-
-      this.sshClient.exec(command, (err, stream) => {
-        if (err) {
-          return reject(err);
-        }
-
-        stream
-          .on('close', (code) => {
-            if (code === 0) {
-              console.log(`File created successfully at: ${filePath}`);
-              resolve();
-            } else {
-              reject(new Error(`Failed to create file. Exit code: ${code}`));
-            }
-          })
-          .on('data', (data) => {
-            console.log(`STDOUT: ${data}`);
-          })
-          .stderr.on('data', (data) => {
-            console.error(`STDERR: ${data}`);
+        sshClient.exec(command, (err, stream) => {
+          if (err) {
+            console.error('Error executing command:', err);
+            event.reply('ssh-status', {
+              success: false,
+              message: 'Failed to execute command.',
+            });
+            return;
+          }
+          event.reply('ssh-status', {
+            success: true,
+            message: 'File created successfully!',
           });
+
+          stream.on('data', (data) => console.log(`STDOUT: ${data}`));
+          stream.stderr.on('data', (data) => console.error(`STDERR: ${data}`));
+        });
+      });
+
+      sshClient.on('error', (err) => {
+        console.error('SSH connection error:', err);
+        event.reply('ssh-status', {
+          success: false,
+          message: `SSH connection error: ${err.message}`,
+        });
+      });
+
+      sshClient.on('close', () => {
+        console.log('SSH connection closed.');
+        isSSHConnected = false;
+      });
+
+      sshClient.connect({
+        ...sshConfig,
+        privateKey: readFileSync(sshConfig.privateKey),
       });
     });
+    ipcMain.on('close-ssh', (event) => {
+      console.log(1)
+      if (sshClient) {
+          sshClient.end();
+          sshClient = null;
+          console.log('SSH connection closed manually.');
+          event.reply('ssh-status', {
+              success: true,
+              message: 'SSH connection closed.',
+          });
+      } else {
+          event.reply('ssh-status', {
+              success: false,
+              message: 'No active SSH connection.',
+          });
+      }
+  });
   }
 }
 
