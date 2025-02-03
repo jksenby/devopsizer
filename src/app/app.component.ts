@@ -1,11 +1,18 @@
-import { Component } from '@angular/core';
-import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { Component, OnInit } from '@angular/core';
+import { PrimeNG } from 'primeng/config'
+import { DrawerComponent } from './components/drawer/drawer.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  imports: [IonApp, IonRouterOutlet],
+  imports: [DrawerComponent, RouterOutlet],
+  styleUrls: ['app.component.scss']
 })
-export class AppComponent {
-  constructor() {}
+export class AppComponent implements OnInit {
+  constructor(private primeng: PrimeNG) {}
+
+  ngOnInit() {
+    this.primeng.ripple.set(true);
+  }
 }

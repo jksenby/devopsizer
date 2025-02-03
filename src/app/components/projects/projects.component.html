@@ -1,0 +1,13 @@
+<p-card header="Projects">
+  @for(item of projects; track item) {
+  <p-panel>
+    <ng-template pTemplate="header"
+      ><p-button
+        [label]="item.name"
+        [link]="true"
+        [routerLink]="['/servers']"
+      />
+    </ng-template>
+  </p-panel>
+  }
+</p-card>
