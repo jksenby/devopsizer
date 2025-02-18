@@ -22,6 +22,9 @@ import windowStateKeeper from 'electron-window-state';
 import { join } from 'path';
 import { Client } from 'ssh2';
 import { readFileSync } from 'fs';
+import Undhandled from 'electron-unhandled';
+
+Undhandled();
 
 // Define components for a watcher to detect when the webapp is changed so we can reload in Dev mode.
 const reloadWatcher = {
@@ -325,9 +328,10 @@ export function setupContentSecurityPolicy(customScheme: string): void {
       responseHeaders: {
         ...details.responseHeaders,
         'Content-Security-Policy': [
-          electronIsDev
-            ? `default-src ${customScheme}://* 'unsafe-inline' devtools://* 'unsafe-eval' data:`
-            : `default-src ${customScheme}://* 'unsafe-inline' data:`,
+          "default-src * self blob: data: gap:; style-src * self 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * self 'unsafe-inline' blob: data: gap:; connect-src self * 'unsafe-inline' blob: data: gap:; frame-src * self blob: data: gap:;"
+          // electronIsDev
+          //   ? `default-src ${customScheme}://* 'unsafe-inline' devtools://* 'unsafe-eval' data:`
+          //   : `default-src ${customScheme}://* 'unsafe-inline' data:`,
         ],
       },
     });

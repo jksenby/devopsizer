@@ -7,4 +7,5 @@ export const environment = {
     privateKey: '/Users/jksenby/.ssh/id_ed25519',
     passphrase: 'jksenby',
   },
+  host: 'https://dev.devopsizer.kz/'
 };

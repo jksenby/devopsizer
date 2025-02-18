@@ -1,18 +1,18 @@
-<div style="width: 20rem; ">
-  <div class="flex flex-col h-full">
+<div style="width: 20rem; height: 100vh;">
+  <div class="flex flex-col h-full drawer">
     <div class="flex items-center justify-between px-6 shrink-0 drawer-ripple">
-      <span class="inline-flex items-center gap-2">
+      <a [routerLink]="['/']" class="inline-flex items-center gap-2">
         <i
           class="fa-brands fa-quinscape text-surface-0"
           style="font-size: 33px"
         ></i>
         <span class="font-semibold text-2xl text-surface-0">DEVOPSIZER</span>
-      </span>
+      </a>
       <span>
         <p-button
           type="button"
           (click)="closeCallback($event)"
-          icon="pi pi-bars"
+          icon="fa-solid fa-bars"
           rounded="true"
           outlined="true"
           styleClass="toggle-drawer h-8 w-8"
@@ -38,16 +38,27 @@
           <ul class="list-none p-0 m-0 overflow-hidden">
             <li>
               <a
-                [routerLink]="['servers']"
+                [routerLink]="['dashboard']"
                 pRipple
                 class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple"
               >
                 <i class="pi pi-home mr-2"></i>
+                <span class="font-medium">Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a
+                [routerLink]="['servers']"
+                pRipple
+                class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple"
+              >
+                <i class="fa-solid fa-server mr-2"></i>
                 <span class="font-medium">Servers</span>
               </a>
             </li>
             <li>
               <a
+                [routerLink]="['servers/1']"
                 pRipple
                 class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple"
               >
@@ -66,7 +77,7 @@
         class="m-4 flex items-center cursor-pointer p-4 gap-2 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple"
       >
         <p-avatar
-          image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+          image="../../../assets/image.png"
           shape="circle"
         />
         <span class="font-bold">Amy Elsner</span>

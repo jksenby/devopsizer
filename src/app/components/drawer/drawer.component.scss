@@ -7,6 +7,10 @@
   align-items: center !important;
 }
 
+// ::ng-deep .drawer {
+//   background: $secondary-color !important;
+// }
+
 ::ng-deep .toggle-drawer {
   color: white !important;
   border-color: white !important;
@@ -14,10 +18,10 @@
 
 ::ng-deep .toggle-drawer:active {
   background: rgba($color: white, $alpha: 0.4) !important;
-  border-color: rgba($color: white, $alpha: 0.5) !important;
-  color: rgba($color: white, $alpha: 0.8) !important;
+  // border-color: rgba($color: white, $alpha: 0.5) !important;
+  // color: rgba($color: white, $alpha: 0.8) !important;
 }
 
-.sidebar-content-container {
-  border-right: 1px solid #e2e8f0;
-}
+// .sidebar-content-container {
+//   border-right: 1px solid #e2e8f0;
+// }

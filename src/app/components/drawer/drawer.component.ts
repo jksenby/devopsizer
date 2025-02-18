@@ -6,6 +6,8 @@ import { AvatarModule } from 'primeng/avatar';
 import { StyleClass } from 'primeng/styleclass';
 import { Drawer } from 'primeng/drawer';
 import { RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faBarChart } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-drawer',
@@ -16,12 +18,15 @@ import { RouterModule } from '@angular/router';
     AvatarModule,
     StyleClass,
     RouterModule,
+    FontAwesomeModule
   ],
   templateUrl: './drawer.component.html',
   styleUrl: './drawer.component.scss',
 })
 export class DrawerComponent {
   @ViewChild('drawerRef') drawerRef!: Drawer;
+
+  faBarChart = faBarChart;
 
   closeCallback(e: MouseEvent): void {
     this.drawerRef.close(e);

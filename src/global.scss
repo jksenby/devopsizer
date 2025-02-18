@@ -10,6 +10,7 @@
  */
 
 /* Core CSS required for Ionic components to work properly */
+@use 'styles/utils/index.scss' as *;
 @import "@ionic/angular/css/core.css";
 
 /* Basic CSS for apps built with Ionic */
@@ -40,3 +41,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+body {
+    background-color: $background-color;
+}

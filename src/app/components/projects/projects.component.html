@@ -1,13 +1,48 @@
-<p-card header="Projects">
-  @for(item of projects; track item) {
-  <p-panel>
-    <ng-template pTemplate="header"
-      ><p-button
-        [label]="item.name"
-        [link]="true"
-        [routerLink]="['/servers']"
-      />
-    </ng-template>
-  </p-panel>
-  }
+<p-card>
+  <ng-template #header>
+    <div class="flex justify-between p-4 pl-6 items-center">
+      <span class="text-2xl font-semibold">Projects</span>
+      <p-button
+        label="Add Project"
+        icon="pi pi-plus"
+        severity="success"
+        (onClick)="onAddProject()"
+      ></p-button>
+    </div>
+  </ng-template>
+  <div class="flex w-full gap-2">
+    @for(item of projects; track item) {
+    <div class="w-full">
+      <p-panel>
+        <ng-template pTemplate="header">
+          <div class="flex justify-between items-center w-full">
+            <p-button
+              [label]="item.name"
+              [link]="true"
+              text="true"
+              severity="contrast"
+              [routerLink]="['/servers']"
+            />
+            <span>Servers: {{ item.servers }}</span>
+          </div>
+        </ng-template>
+        <ng-template #footer>
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+              <p-button
+                icon="fa-solid fa-pen-to-square"
+                rounded
+                text
+                (onClick)="onAddProject()"
+              ></p-button>
+            </div>
+            <span class="text-surface-500 dark:text-surface-400">{{
+              item.user
+            }}</span>
+          </div>
+        </ng-template>
+      </p-panel>
+    </div>
+    }
+  </div>
 </p-card>

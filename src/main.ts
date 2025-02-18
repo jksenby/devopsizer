@@ -26,15 +26,9 @@ bootstrapApplication(AppComponent, {
       theme: {
         preset: Aura,
         options: {
-          prefix: 'p',
-          darkModeSelector: 'system',
-          cssLayer: false,
         },
       },
       ripple: true,
-      csp: {
-        nonce: '...',
-      },
     }),
     provideHttpClient(withFetch()),
     provideAnimationsAsync()
