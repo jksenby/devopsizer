@@ -13,4 +13,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
     onSSHStatus: (callback: Function) => {
         ipcRenderer.on('ssh-status', (event, status) => callback(status));
       },
+    openPopup: () => ipcRenderer.send('open-popup')
 });  

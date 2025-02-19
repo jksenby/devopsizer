@@ -6,6 +6,7 @@ declare global {
       connectSSH: (sshConfig: any, formValue: any) => void;
       closeSSH: () => void;
       onSSHStatus: (callback: (status: string) => void) => void;
+      openPopup: () => void
     };
   }
 }

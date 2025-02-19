@@ -10,6 +10,6 @@ export class ProjectsService {
 
   public getAllProjects() {
     const headers = new HttpHeaders()
-    return this.http.get(environment.host + '/projects', { withCredentials: true });
+    return this.http.get(environment.host + 'projects', { withCredentials: true });
   }
 }

@@ -98,6 +98,7 @@ export class ElectronCapacitorApp {
     this.loadWebApp = electronServe({
       directory: join(app.getAppPath(), 'app'),
       scheme: this.customScheme,
+      hostname: 'local.devopsizer.kz'
     });
   }
 
@@ -146,6 +147,7 @@ export class ElectronCapacitorApp {
     });
     this.MainWindow.maximize();
     this.mainWindowState.manage(this.MainWindow);
+
 
     if (this.CapacitorFileConfig.backgroundColor) {
       this.MainWindow.setBackgroundColor(
@@ -318,6 +320,15 @@ export class ElectronCapacitorApp {
           });
       }
   });
+
+  ipcMain.on('open-popup', (event) => {
+    const popup = new BrowserWindow({
+      height: 600,
+      width: 800
+    });
+
+    popup.loadURL('https://dev.devopsizer.kz');
+  })
   }
 }
 

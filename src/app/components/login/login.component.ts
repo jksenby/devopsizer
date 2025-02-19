@@ -18,7 +18,11 @@ export class LoginComponent  implements OnInit {
   ngOnInit() {}
 
   onGoogleLogin() {
-    window.open(environment.host + 'login/google', '_self')
+    // window.electronAPI.openPopup();
+    this.http.get(environment.host + 'login/google', {withCredentials: true}).subscribe(response => {
+      console.log(response)
+    });
+    // window.open(environment.host + 'login/google', '_self')
   }
 
 }

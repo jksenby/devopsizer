@@ -32,11 +32,11 @@ export class ProjectsComponent implements OnInit {
 
   getAllProjects() {
     this.isLoading = true;
-    // this._projectsService.getAllProjects().pipe(finalize(() => this.isLoading = false)).subscribe({
-    //   next: (projects: any) => {
-    //     this.projects = projects;
-    //   }
-    // })
+    this._projectsService.getAllProjects().pipe(finalize(() => this.isLoading = false)).subscribe({
+      next: (projects: any) => {
+        this.projects = projects;
+      }
+    })
   }
 
   public onAddProject() {
