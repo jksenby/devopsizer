@@ -8,17 +8,6 @@
         ></i>
         <span class="font-semibold text-2xl text-surface-0">DEVOPSIZER</span>
       </a>
-      <span>
-        <p-button
-          type="button"
-          (click)="closeCallback($event)"
-          icon="fa-solid fa-bars"
-          rounded="true"
-          outlined="true"
-          styleClass="toggle-drawer h-8 w-8"
-          severity="danger"
-        ></p-button>
-      </span>
     </div>
     <div class="overflow-y-auto sidebar-content-container">
       <ul class="list-none p-4 m-0">
@@ -48,22 +37,12 @@
             </li>
             <li>
               <a
-                [routerLink]="['servers']"
+                [routerLink]="['projects']"
                 pRipple
                 class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple"
               >
-                <i class="fa-solid fa-server mr-2"></i>
-                <span class="font-medium">Servers</span>
-              </a>
-            </li>
-            <li>
-              <a
-                [routerLink]="['servers/1']"
-                pRipple
-                class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple"
-              >
-                <i class="pi pi-cog mr-2"></i>
-                <span class="font-medium">Settings</span>
+                <i class="fa-solid fa-diagram-project mr-2"></i>
+                <span class="font-medium">Projects</span>
               </a>
             </li>
           </ul>
@@ -73,14 +52,12 @@
     <div class="mt-auto sidebar-content-container">
       <hr class="mb-4 mx-4 border-t border-0 border-surface" />
       <a
+        [routerLink]="['servers/1']"
         pRipple
         class="m-4 flex items-center cursor-pointer p-4 gap-2 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple"
       >
-        <p-avatar
-          image="../../../assets/image.png"
-          shape="circle"
-        />
-        <span class="font-bold">Amy Elsner</span>
+        <i class="pi pi-cog mr-2"></i>
+        <span class="font-medium">Settings</span>
       </a>
     </div>
   </div>

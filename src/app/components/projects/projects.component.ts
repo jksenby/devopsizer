@@ -45,7 +45,7 @@ export class ProjectsComponent implements OnInit {
       focusOnShow: false,
       closeOnEscape: true,
       modal: true,
-      width: '50vw',
+      width: '720px',
       breakpoints: {
         '960px': '75vw',
         '640px': '90vw',

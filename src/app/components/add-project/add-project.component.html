@@ -1,3 +1,40 @@
-<p>
-  add-project works!
-</p>
+<form [formGroup]="serverForm" (ngSubmit)="onSubmit()">
+  <p-floatlabel variant="on">
+    <input id="name" type="text" pInputText formControlName="name" autocomplete="off" />
+    <label for="name">Name</label>
+  </p-floatlabel>
+  <p-float-label variant="on">
+    <input id="project" type="text" pInputText formControlName="project" />
+    <label for="project">Project</label>
+  </p-float-label>
+  <p-floatlabel variant="on">
+    <input id="ip1" type="text" pInputText formControlName="ip1" />
+    <label for="ip1">IP address</label>
+  </p-floatlabel>
+  <p-floatlabel variant="on">
+    <input id="ssh_type" type="text" pInputText formControlName="ssh_type" />
+    <label for="ssh_type">SSH type</label>
+  </p-floatlabel>
+  <p-floatlabel variant="on">
+    <input id="ssh_key" type="text" pInputText formControlName="ssh_key" />
+    <label for="ssh_key">SSH key</label>
+  </p-floatlabel>
+  <p-floatlabel variant="on">
+    <input id="login" type="text" pInputText formControlName="login" />
+    <label for="login">Login</label>
+  </p-floatlabel>
+  <p-floatlabel variant="on">
+    <input id="password" type="password" pInputText formControlName="password" />
+    <label for="password">Password</label>
+  </p-floatlabel>
+  <footer>
+    <p-button
+      label="Delete"
+      icon="pi pi-trash"
+      (onClick)="onDelete()"
+      severity="danger"
+    ></p-button>
+    <p-button label="Save" icon="pi pi-save" type="submit"></p-button>
+  </footer>
+</form>
+<p-toast />

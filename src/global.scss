@@ -45,4 +45,6 @@
 
 body {
     background-color: $background-color;
+      background-blend-mode: var(--glow-blend);
+    background-image: var(--glow-image);
 }

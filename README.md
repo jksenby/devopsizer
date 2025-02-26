@@ -21,6 +21,7 @@ cd Devopsizer
 ### 2️⃣ Install dependencies
 ```sh
 npm install
+npm install -g @ionic/cli
 ```
 
 ### 🔄 Sync Angular code with Electron

@@ -1,0 +1,21 @@
+  <p-fieldset legend="Servers" [toggleable]="true">
+    <p>Servers: 112</p>
+    <p>Projects: 4</p>
+    <p>Users: 3</p>
+  </p-fieldset>
+  <p-fieldset legend="Monitoring" [toggleable]="true">
+    <p>Alerts: 5</p>
+    <p>Issues resolved: 4</p>
+    <p>Security alerts: 1</p>
+  </p-fieldset>
+  <div #chart>
+    <apx-chart
+      [series]="chartOptions.series!"
+      [chart]="chartOptions.chart!"
+      [xaxis]="chartOptions.xaxis!"
+      [dataLabels]="chartOptions.dataLabels!"
+      [stroke]="chartOptions.stroke!"
+      [title]="chartOptions.title!"
+      [tooltip]="chartOptions.tooltip!"
+    ></apx-chart>
+  </div>

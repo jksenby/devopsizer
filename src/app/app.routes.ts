@@ -7,7 +7,7 @@ import { ServerComponent } from './components/server/server.component';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'projects',
     component: ProjectsComponent
   },
   {
@@ -25,5 +25,10 @@ export const routes: Routes = [
   {
     path: 'servers/:id',
     component: ServerComponent
+  },
+  {
+    path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full'
   }
 ];
